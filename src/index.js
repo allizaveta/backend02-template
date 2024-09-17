@@ -26,14 +26,17 @@ const server = http.createServer((request, response) => {
 
         // Если передан параметр users
         case usersParam !== null:
-            getUsers((data) => {
-
-                response.statusCode = 200;
-                response.setHeader('Content-Type', 'application/json');
-                response.end(data);
-            })
+            getUsers((err, users) => {
+                if (err) {
+                    response.statusCode = 500;
+                    response.end('Error reading users data');
+                } else {
+                    response.statusCode = 200;
+                    response.setHeader('Content-Type', 'application/json');
+                    response.end(JSON.stringify(users));
+                }
+            });
             break;
-
         // Если параметры не переданы
         case url.searchParams.toString() === '':
             response.statusCode = 200;

@@ -4,11 +4,16 @@ const path = require('path');
 const getUsers = (callback) => {
   const filePath = path.join(__dirname, "../data/users.json");
 
-  fs.readFile(filePath, (err, data) => {
+  fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
-      callback(err, null);
+      callback(err);
     } else {
-      callback(null, data);
+      try {
+        const users = JSON.parse(data);
+        callback(null, users);
+      } catch (parseError) {
+        callback(parseError);
+      }
     }
   });
 };
