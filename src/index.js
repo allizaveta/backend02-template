@@ -11,21 +11,10 @@ const server = http.createServer((request, response) => {
 
     response.setHeader('Content-Type', 'text/plain');
 
+    // Если передан параметр users
     switch (true) {
-        // Если передан параметр hello с именем
-        case name !== null && name !== '':
-            response.statusCode = 200;
-            response.end(`Hello, ${name}`);
-            break;
-
-        // Если передан параметр hello, но имя пустое
-        case name !== null && name === '':
-            response.statusCode = 400;
-            response.end('Enter a name');
-            break;
-
-        // Если передан параметр users
-        case usersParam !== null:
+        // Если запрашивается /users
+        case url.pathname === '/users':
             getUsers((err, users) => {
                 if (err) {
                     response.statusCode = 500;
@@ -37,6 +26,17 @@ const server = http.createServer((request, response) => {
                 }
             });
             break;
+        case name !== null && name !== '':
+            response.statusCode = 200;
+            response.end(`Hello, ${name}`);
+            break;
+
+        // Если передан параметр hello, но имя пустое
+        case name !== null && name === '':
+            response.statusCode = 400;
+            response.end('Enter a name');
+            break;
+
         // Если параметры не переданы
         case url.searchParams.toString() === '':
             response.statusCode = 200;
