@@ -7,11 +7,9 @@ const port = 3003;
 const server = http.createServer((request, response) => {
     const url = new URL(request.url, `http://${hostname}:${port}`);
     const name = url.searchParams.get('hello');
-    const usersParam = url.searchParams.get('users');
 
     response.setHeader('Content-Type', 'text/plain');
 
-    // Если передан параметр users
     switch (true) {
         // Если запрашивается /users
         case url.pathname === '/users':
@@ -26,6 +24,8 @@ const server = http.createServer((request, response) => {
                 }
             });
             break;
+
+        // Если передан параметр hello с именем
         case name !== null && name !== '':
             response.statusCode = 200;
             response.end(`Hello, ${name}`);
@@ -43,10 +43,10 @@ const server = http.createServer((request, response) => {
             response.end('Hello, World!');
             break;
 
-        // Если переданы другие параметры
+        // Если переданы другие параметры или неверный путь
         default:
             response.statusCode = 500;
-            response.end();
+            response.end('');
             break;
     }
 });
