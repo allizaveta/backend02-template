@@ -42,3 +42,4 @@ console.log(url.searchParams);
 
 В [справочнике](https://www.iana.org/assignments/media-types/media-types.xhtml) в столбце _Name_ указывается что за тип
 данных, а столбце _Template_ какой следует указывать Content-Type.
+:
